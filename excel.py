@@ -43,7 +43,7 @@ def read_excel(path: str, sheet_name: str):
         print()
 
 
-def remove_duplicates(path: str, sheet_name: str, cols: list[int]):
+def remove_duplicates(path: str, sheet_name: str, cols: list):
     arr = os.path.splitext(path)
     path2 = arr[0] + '[去重]' + arr[1]
     try:

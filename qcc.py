@@ -1,7 +1,13 @@
 # by Ganxiaozhe (hi@gxzv.com)
 # 2022-11-29
+# https://zhuanlan.zhihu.com/p/587896657
 # https://gxzv.com/blog/qcc_headers_hash/
 #
+# win_tid获取：
+# https://qcc-static.qichacha.com/qcc/pc-web/prod-23.02.70/common-88d3322f.80048e3e.js
+# s (common-88d3322f.80048e3e.js:formatted:11139)
+# u (common-88d3322f.80048e3e.js:formatted:10589) 控制台：(0,s.default)()
+
 import json
 import hashlib
 import hmac
@@ -80,8 +86,8 @@ def r_default(url: str = '/', data: object = {}, tid: str = ''):
 
 
 if __name__ == '__main__':
-    url = '/api/datalist/tenderlist?companyId=5706dde2154629887c658d8c9687973e&pageIndex=23&pageSize=50&type=100'
+    url = '/api/datalist/tenderlist?companyId=5706dde2154629887c658d8c9687973e&pageIndex=2&type=100'
     data = {}
-    win_tid = 'b46d21917b04bdbf9ea01dbc2bb7cb79'
+    win_tid = '8c2ee8f227b83e1fe4a450b4b6c63dd1'
     print(url)
     print('%s: %s' % (a_default(url, data), r_default(url, data, win_tid)))

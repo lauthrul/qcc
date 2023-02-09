@@ -12,6 +12,7 @@ sheet_name = 'Sheet1'
 
 
 # 开始爬取数据
+# https://www.qcc.com/crun/5706dde2154629887c658d8c9687973e.html
 def run(from_page: int, to_page: int):
     # 打开excel
     try:
@@ -28,29 +29,27 @@ def run(from_page: int, to_page: int):
 
     # 请求头
     headers = {
-        'Host': 'www.qcc.com',
-        'Connection': 'keep-alive',
-        'sec-ch-ua': '"Not?A_Brand";v="8", "Chromium";v="108", "Microsoft Edge";v="108"',
-        'x-pid': '4d8acbf5774ccb2938b764721b040c71',
+        'accept': 'application/json, text/plain, */*',
+        'accept-encoding': 'gzip, deflate, br',
+        'accept-language': 'zh-CN,zh;q=0.9',
+        'cookie': 'QCCSESSID=6e384441a07dbe8ffa6fd74b71; qcc_did=a6f9f54a-b898-4a21-b2a8-819a35a84e04; '
+                  'UM_distinctid=18635f0d2986da-0e004d75d04a-26021051-186a00-18635f0d299d21; '
+                  'CNZZDATA1254842228=1387962885-1675940614-%7C1675940614; '
+                  'acw_tc=77939c9e16759440568586977e7e204fb2d6c1a156104bf31c86de5a6a',
+        'referer': 'https://www.qcc.com/crun/5706dde2154629887c658d8c9687973e.html',
+        'sec-ch-ua': '"Not_A Brand";v="99", "Google Chrome";v="109", "Chromium";v="109"',
         'sec-ch-ua-mobile': '?0',
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
-                      'Chrome/108.0.0.0 Safari/537.36 Edg/108.0.1462.54',
-        'Accept': 'application/json, text/plain, */*',
-        'X-Requested-With': 'XMLHttpRequest',
         'sec-ch-ua-platform': '"Windows"',
-        'Sec-Fetch-Site': 'same-origin',
-        'Sec-Fetch-Mode': 'cors',
-        'Sec-Fetch-Dest': 'empty',
-        'Referer': 'https://www.qcc.com/crun/5706dde2154629887c658d8c9687973e.html',
-        'Accept-Encoding': 'gzip, deflate, br',
-        'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6',
-        'Cookie': 'qcc_did=98db4971-f6ef-4f21-bc84-d0459fbfd1b7; '
-                  'UM_distinctid=1857cedaa299f8-0285a851cf387a-26021151-fa000-1857cedaa2a10f4; '
-                  'CNZZDATA1254842228=1798699866-1672835787-%7C1672835787; QCCSESSID=dc3dd8c794799708a01a4b8e44; '
-                  'acw_tc=0e77411216729196579005931e1797a5b160044c77b01921c7c56efe76 '
+        'sec-fetch-dest': 'empty',
+        'sec-fetch-mode': 'cors',
+        'sec-fetch-site': 'same-origin',
+        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
+                      'Chrome/109.0.0.0 Safari/537.36',
+        'x-pid': '259aa12cdd22c15033b54a1f6c0ec28f',
+        'x-requested-with': 'XMLHttpRequest'
     }
     # 通过web调试获取得到
-    win_tid = 'b46d21917b04bdbf9ea01dbc2bb7cb79'
+    win_tid = '8c2ee8f227b83e1fe4a450b4b6c63dd1'
     # 请求地址
     host = 'https://www.qcc.com'
 
@@ -70,7 +69,7 @@ def run(from_page: int, to_page: int):
         headers[hash_key] = hash_value
         # 获取数据
         resp = requests.get(host + url, headers=headers)
-        print('[%.2fs] [#%d] -> %d' % (t, page, resp.status_code))
+        print('[%.2fs] [#%d] -> %d' % (t, page, resp.status_code), resp.text if resp.status_code != 200 else "")
         if resp.status_code == 200:
             data = json.loads(resp.text)
             if data is None:
