@@ -1,6 +1,8 @@
 import json
 import random
 import sys
+import time
+
 import requests
 from excel import append_excel, open_excel, remove_duplicates
 from qcc import a_default, r_default
@@ -9,6 +11,12 @@ from qcc import a_default, r_default
 company = '北京嘉和美康信息技术有限公司'
 path = company + "-投标信息.xlsx"
 sheet_name = 'Sheet1'
+# 以下参数通过web调试获取得到
+win_tid = '24613b0771326c64407519f48e0af35b'
+cookie = 'QCCSESSID=a62b1c21d842480f19f9647272; qcc_did=ca5ec80d-af27-413e-8b95-10c5b9b087cc; ' \
+         'UM_distinctid=1882977e6a83b6-045ce4892a0f4e-26031a51-186a00-1882977e6a95c5; ' \
+         'CNZZDATA1254842228=887074029-1684321179-%7C1684321179; ' \
+         'acw_tc=77936f9d16843247173884021e22932dbfee01de30a0affdc5a4186d5a'
 
 
 # 开始爬取数据
@@ -32,10 +40,7 @@ def run(from_page: int, to_page: int):
         'accept': 'application/json, text/plain, */*',
         'accept-encoding': 'gzip, deflate, br',
         'accept-language': 'zh-CN,zh;q=0.9',
-        'cookie': 'QCCSESSID=6e384441a07dbe8ffa6fd74b71; qcc_did=a6f9f54a-b898-4a21-b2a8-819a35a84e04; '
-                  'UM_distinctid=18635f0d2986da-0e004d75d04a-26021051-186a00-18635f0d299d21; '
-                  'CNZZDATA1254842228=1387962885-1675940614-%7C1675940614; '
-                  'acw_tc=77939c9e16759440568586977e7e204fb2d6c1a156104bf31c86de5a6a',
+        'cookie': cookie,
         'referer': 'https://www.qcc.com/crun/5706dde2154629887c658d8c9687973e.html',
         'sec-ch-ua': '"Not_A Brand";v="99", "Google Chrome";v="109", "Chromium";v="109"',
         'sec-ch-ua-mobile': '?0',
@@ -48,8 +53,7 @@ def run(from_page: int, to_page: int):
         'x-pid': '259aa12cdd22c15033b54a1f6c0ec28f',
         'x-requested-with': 'XMLHttpRequest'
     }
-    # 通过web调试获取得到
-    win_tid = '8c2ee8f227b83e1fe4a450b4b6c63dd1'
+
     # 请求地址
     host = 'https://www.qcc.com'
 
@@ -57,8 +61,8 @@ def run(from_page: int, to_page: int):
     row = 0
     for page in range(from_page, to_page + 1):
         # 防止服务器防爬虫，随机睡眠一定时间
-        t = random.random()
-        # time.sleep(t)
+        t = random.random()*3
+        time.sleep(t)
 
         url = '/api/datalist/tenderlist?companyId=5706dde2154629887c658d8c9687973e&pageIndex={}' \
               '&pageSize=50&type=100'.format(page)
